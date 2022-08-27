@@ -1,5 +1,5 @@
 import FeedbackItem from "./FeedbackItem"
-import {motion, AnimatedPresence} from 'framer-motion'
+import {motion, AnimatePresence} from 'framer-motion'
 
 const FeedbackList = ({feedback, handleDelete}) => {
   if(!feedback || feedback.length === 0){
@@ -7,7 +7,7 @@ const FeedbackList = ({feedback, handleDelete}) => {
   }
   return (
     <div className="feedback-list">
-      <AnimatedPresence>
+      <AnimatePresence>
         {feedback.map((item) => (
           <motion.div
             key={item.id}
@@ -18,7 +18,7 @@ const FeedbackList = ({feedback, handleDelete}) => {
             <FeedbackItem key={item.id} item={item} handleDelete={handleDelete}/>
           </motion.div>
         ))}
-      </AnimatedPresence>
+      </AnimatePresence>
     </div>
   )
   // return (
