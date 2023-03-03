@@ -2,21 +2,24 @@ import { useState } from "react"
 import Card from "./shared/Card"
 import Button from "./shared/Button"
 import RatingSelect from "./RatingSelect"
+import { useContext } from "react"
+import FeedbackContext from "../context/FeedbackContext"
 
-const FeedbackForm = ({handleAdd}) => {
-  const [text, setText] = useState('')
-  const [rating,setRating] = useState(10)
-  const [btnDisabled,setBtnDisabled] = useState(true)
-  const [message, setMessage] = useState('')
+const FeedbackForm = () => {
+  const [text, setText] = useState("")
+  const [rating, setRating] = useState(10)
+  const [btnDisabled, setBtnDisabled] = useState(true)
+  const [message, setMessage] = useState("")
+  const { addFeedback } = useContext(FeedbackContext)
 
   const handleTextChange = (e) => {
-    if(text === ''){
+    if (text === "") {
       setBtnDisabled(true)
       setMessage(null)
-    } else if(text !== '' && text.trim().length <= 10){
+    } else if (text !== "" && text.trim().length <= 10) {
       setBtnDisabled(true)
-      setMessage('Text must be least 10 characters')
-    } else{
+      setMessage("Text must be least 10 characters")
+    } else {
       setMessage(null)
       setBtnDisabled(false)
     }
@@ -25,29 +28,31 @@ const FeedbackForm = ({handleAdd}) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if(text.trim().length > 10){
+    if (text.trim().length > 10) {
       const newFeedback = {
         text,
-        rating
+        rating,
       }
       // console.log(newFeedback)
-      handleAdd(newFeedback)
-      setText('')
+      addFeedback(newFeedback)
+      setText("")
     }
   }
   return (
     <Card>
       <form onSubmit={handleSubmit}>
         <h2>How would you rate your service with us?</h2>
-        <RatingSelect select={(rating) => setRating(rating)}/>
+        <RatingSelect select={(rating) => setRating(rating)} />
         <div className="input-group">
-          <input 
-            type="text" 
+          <input
+            type="text"
             value={text}
             placeholder="Write a review"
             onChange={handleTextChange}
           />
-          <Button type="submit" isDisabled={btnDisabled}>Send</Button>
+          <Button type="submit" isDisabled={btnDisabled}>
+            Send
+          </Button>
         </div>
         {message && <div className="message">{message}</div>}
       </form>
